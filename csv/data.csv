@@ -1,0 +1,11 @@
+id,name,price,category
+1,Apple,1.2,Fruit
+2,Banana,0.8,Fruit
+3,Carrot,0.5,Vegetable
+4,,1.5,Fruit
+5,Tomato,abc,Vegetable
+6,Orange, ,Fruit
+7,Carrot-2,0.5
+8,HJH59,1.2,159
+9,Apple-2,1.2,159
+10,159,1.2,159
