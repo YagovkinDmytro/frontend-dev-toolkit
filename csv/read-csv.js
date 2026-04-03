@@ -1,3 +1,5 @@
+import { normalizeRow } from "./normalize.js";
+
 fetch("./csv/data.csv")
   .then((res) => {
     if (!res.ok) {
@@ -8,48 +10,11 @@ fetch("./csv/data.csv")
   .then((csv) => {
     const rows = csv.split(/\r?\n/).filter((row) => row.trim() !== "");
 
-    const headers = rows[0].split(",");
+    const headers = rows[0].split(",").map((h) => h.trim());
 
     const result = rows.slice(1).map((row) => {
-      let [id, name, price, category] = row.split(",");
-
-      const issues = [];
-
-      const idValue = id?.trim();
-
-      const nameValue = name?.trim();
-      if (!nameValue) {
-        issues.push("Missing name");
-        name = "Unknown";
-      } else {
-        name = nameValue;
-      }
-
-      const priceValue = price?.trim();
-      const numericPrice = Number(priceValue);
-      if (!priceValue || Number.isNaN(numericPrice)) {
-        issues.push("Invalid price");
-        price = null;
-      } else {
-        price = numericPrice;
-      }
-
-      const categoryValue = category?.trim();
-      if (!categoryValue) {
-        issues.push("Missing category");
-        category = "Unknown";
-      } else {
-        category = categoryValue;
-      }
-
-      return {
-        id: idValue,
-        name,
-        price,
-        category,
-        issues,
-        isValid: issues.length === 0,
-      };
+      const columns = row.split(",");
+      return normalizeRow(columns);
     });
 
     console.log("Headers:", headers);
